@@ -515,8 +515,8 @@ static void* pinedio_pin_poll_thread(void* arg) {
   uint32_t input;
   while (!should_exit) {
     ret = pinedio_get_input(inst, &input);
-    pinedio_mutex_lock(&inst->usb_access_mutex);
     if (ret != 0) continue;
+    pinedio_mutex_lock(&inst->usb_access_mutex);
     for (uint8_t int_pin = 0; int_pin < PINEDIO_INT_PIN_MAX; int_pin++) {
       struct pinedio_inst_int* inst_int = &inst->interrupts[int_pin];
       if (inst_int->callback == NULL) continue;
