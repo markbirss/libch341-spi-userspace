@@ -66,6 +66,7 @@ struct pinedio_inst {
   pthread_mutex_t usb_access_mutex;
   pthread_t pin_poll_thread;
   bool pin_poll_thread_exit;
+  bool in_error;
   struct pinedio_inst_int interrupts[PINEDIO_INT_PIN_MAX];
   uint32_t options[PINEDIO_OPTION_MAX];
   char serial_number[9];

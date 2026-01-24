@@ -515,7 +515,14 @@ static void* pinedio_pin_poll_thread(void* arg) {
   uint32_t input;
   while (!should_exit) {
     ret = pinedio_get_input(inst, &input);
+    if (ret < 0) {
+      should_exit = true;
+      inst->in_error = true;
+      fprintf(stderr, "Failed to get input, res: %d\n", ret);
+      continue;
+    }
     if (ret != 0) continue;
+    inst->in_error = false;
     pinedio_mutex_lock(&inst->usb_access_mutex);
     for (uint8_t int_pin = 0; int_pin < PINEDIO_INT_PIN_MAX; int_pin++) {
       struct pinedio_inst_int* inst_int = &inst->interrupts[int_pin];
